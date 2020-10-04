@@ -4,7 +4,7 @@ file = open("text.txt", 'r', encoding='UTF-8') # Open file with proper encoding
 
 space_file, spaceless_file = extra_remover(file)
 
-onegram(space_file)
+monogram(space_file)
 
 bigram(space_file, spaceless_file)
 
