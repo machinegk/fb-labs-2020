@@ -9,5 +9,4 @@ onegram(space_file)
 bigram(space_file, spaceless_file)
 
 
-
 file.close()
