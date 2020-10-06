@@ -24,7 +24,14 @@ key5 = 'вкусныйвидеосалат'
 indexed_alphabet = {key: v for v, key in enumerate(alphabet)}
 print (indexed_alphabet)
 
-
-print(list(map(lambda i: indexed_alphabet[i], text)))
+list = list(map(lambda i: indexed_alphabet[i], text))
+print(list)
+keyLen = len(key1)
+alphLen = len(alphabet)
+for i in range(0, len(list)):
+    list[i] = ( list[i] + indexed_alphabet[ (key1[i % keyLen]) ] ) % alphLen
+    
+    
+print(list)
 
 print(indexed_alphabet)
