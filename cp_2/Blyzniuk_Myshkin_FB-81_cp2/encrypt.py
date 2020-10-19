@@ -2,7 +2,7 @@ import re
 import os
 import sys
 from funcs import encryptor, conformity_index, key_length
-# import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 
 file = open(os.path.join(sys.path[0], 'text.txt'), 'r', encoding='UTF-8')
 w_file = open(os.path.join(sys.path[0], 'text_encrypted.txt'), 'a', encoding='UTF-8')
@@ -47,20 +47,20 @@ print(str(data_3))
 print(str(data_4))
 print(str(data_5))
 
-# clrs = ['grey' if (x < max(data_1.values())) else 'red' for x in data_1.values()]
-# plt.bar(data_1.keys(), data_1.values(), color=clrs)
-# plt.show()
-# clrs = ['grey' if (x < max(data_2.values())) else 'red' for x in data_2.values()]
-# plt.bar(data_2.keys(), data_2.values(), color=clrs)
-# plt.show()
-# clrs = ['grey' if (x < max(data_3.values())) else 'red' for x in data_3.values()]
-# plt.bar(data_3.keys(), data_3.values(), color=clrs)
-# plt.show()
-# clrs = ['grey' if (x < max(data_4.values())) else 'red' for x in data_4.values()]
-# plt.bar(data_4.keys(), data_4.values(), color=clrs)
-# plt.show()
-# clrs = ['grey' if (x < max(data_5.values())) else 'red' for x in data_5.values()]
-# plt.bar(data_5.keys(), data_5.values(), color=clrs)
-# plt.show()
+clrs = ['grey' if (x < max(data_1.values())) else 'red' for x in data_1.values()]
+plt.bar(data_1.keys(), data_1.values(), color=clrs)
+plt.show()
+clrs = ['grey' if (x < max(data_2.values())) else 'red' for x in data_2.values()]
+plt.bar(data_2.keys(), data_2.values(), color=clrs)
+plt.show()
+clrs = ['grey' if (x < max(data_3.values())) else 'red' for x in data_3.values()]
+plt.bar(data_3.keys(), data_3.values(), color=clrs)
+plt.show()
+clrs = ['grey' if (x < max(data_4.values())) else 'red' for x in data_4.values()]
+plt.bar(data_4.keys(), data_4.values(), color=clrs)
+plt.show()
+clrs = ['grey' if (x < max(data_5.values())) else 'red' for x in data_5.values()]
+plt.bar(data_5.keys(), data_5.values(), color=clrs)
+plt.show()
 
 file.close()

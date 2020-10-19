@@ -33,8 +33,17 @@ def decryptor(key, indexed_text, indexed_alphabet):
     return deciphered_text
 
 
-def partial_caesar_decryptor(monograms, ):
-    pass
+def partial_caesar_decryptor(text, monograms, key_len):
+    chunks = []
+    for element in range(1, key_len+1):
+        letter_list = text[element::key_len]
+        txt = "".join(map(str, letter_list))
+        print(monogram_counter(txt))
+        chunks.append(txt)
+
+
+def monogram_counter(text):
+    return OrderedDict(sorted(Counter(text).items(), key=lambda t: t[1], reverse=True))
 
 
 def conformity_index(text):
