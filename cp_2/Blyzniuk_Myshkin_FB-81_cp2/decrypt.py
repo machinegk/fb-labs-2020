@@ -1,11 +1,13 @@
 import matplotlib.pyplot as plt
-
+import os
+import sys
 from funcs import *
 
-file = open('encrypted.txt', 'r', encoding='UTF-8')
-w_file = open('decrypted.txt', 'a', encoding='UTF-8')
+file = open(os.path.join(sys.path[0], 'encrypted.txt'), 'r', encoding='UTF-8')
+w_file = open(os.path.join(sys.path[0], 'decrypted.txt'), 'a', encoding='UTF-8')
 
-stat_file = open('statistics_text.txt', 'r', encoding='UTF-8')
+stat_file = open(os.path.join(sys.path[0], 'statistics_text.txt'), 'r', encoding='UTF-8')
+
 stat_text = re.sub(r'[^А-Яа-я]', '', stat_file.read().lower())
 
 monograms = monogram_counter(stat_text)
