@@ -1,5 +1,5 @@
 import re
-from funcs import encryptor, conformity_index
+from funcs import encryptor, conformity_index, key_length
 
 file = open('text.txt', 'r', encoding='UTF-8')
 w_file = open('text_encrypted.txt', 'a', encoding='UTF-8')
@@ -32,6 +32,11 @@ print("Conformity of text encoded with key (4): " + str(conformity_index(enc_tex
 print("Conformity of text encoded with key (5): " + str(conformity_index(enc_text[3])))
 print("Conformity of text encoded with key (17): " + str(conformity_index(enc_text[4])))
 
+print (str(key_length(enc_text[0])))
+print (str(key_length(enc_text[1])))
+print (str(key_length(enc_text[2])))
+print (str(key_length(enc_text[3])))
+print (str(key_length(enc_text[4])))
 
 
 file.close()

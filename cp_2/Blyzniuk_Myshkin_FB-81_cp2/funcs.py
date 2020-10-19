@@ -1,4 +1,5 @@
 from collections import Counter, OrderedDict
+import re
 
 
 def encryptor(key, indexed_text, indexed_alphabet):
@@ -25,12 +26,32 @@ def conformity_index(text):
     index = 0
 
     for element in grams:
-        index += (grams[element] * (grams[element] - 1)) / (text_length * (text_length - 1))
+        if text_length != 1:
+            index += (grams[element] * (grams[element] - 1)) / (text_length * (text_length - 1))
 
     return index
 
 def key_length(text):
-    index = conformity_index(text)
-    text_length = len(text)
-    possible_key = (0.027*text_length)/((text_length-1)*index + 0.65 - 0.038*text_length)
-    return possible_key
+    index_dict = {}
+    for chunk in range(2, 30):
+        index = 0
+        start = 0
+        for element in range(1, chunk+1):
+            letter_list = text[start::element]
+            txt = "".join(map(str,letter_list))
+            index += conformity_index(txt)
+            start += 1
+        index_dict[chunk] = index / chunk
+    return index_dict
+#
+# def key_length(text):
+#     key_length_dict = {}
+#     text_length = len(text)
+#     for chunk in range(2, 30):
+#         text_splited = re.findall('.{1,' + str(round(text_length/chunk)) + '}', text)
+#         index = 0
+#         for q in text_splited:
+#             index += conformity_index(q)
+#         key_length_dict[chunk] = index / len(text_splited)
+#
+#     return key_length_dict
