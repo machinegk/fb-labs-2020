@@ -18,6 +18,25 @@ def encryptor(key, indexed_text, indexed_alphabet):
     return ''.join(text_to_return)
 
 
+def decryptor(key, indexed_text, indexed_alphabet):
+    deciphered_text = []
+
+    key_len = len(key)
+    aplphabet_len = len(indexed_alphabet)
+
+    key_list = list(indexed_alphabet.keys())
+    val_list = list(indexed_alphabet.values())
+
+    for i in range(0, len(indexed_text)):
+        deciphered_text.append(
+            key_list[val_list.index((indexed_text[i] - indexed_alphabet[key[i % key_len]]) % aplphabet_len)])
+    return deciphered_text
+
+
+def partial_caesar_decryptor(monograms, ):
+    pass
+
+
 def conformity_index(text):
     text_length = len(text)
     grams = Counter(text)
@@ -35,11 +54,9 @@ def key_length(text):
     index_dict = {}
     for chunk in range(2, 31):
         index = 0
-        start = 0
         for element in range(1, chunk + 1):
-            letter_list = text[start::element]
+            letter_list = text[element::chunk]
             txt = "".join(map(str, letter_list))
             index += conformity_index(txt)
-            start += 1
         index_dict[chunk] = index / chunk
     return index_dict
