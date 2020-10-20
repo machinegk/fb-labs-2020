@@ -61,7 +61,7 @@ def partial_caesar_decryptor(text, reference_dict, key_len):
     key_list = list(indexed_alphabet.keys())
     val_list = list(indexed_alphabet.values())
 
-    for element in range(1, key_len + 1):
+    for element in range(0, key_len):
         letter_list = text[element::key_len]
         txt = "".join(map(str, letter_list))
         stat = entropy_counter(txt)
@@ -94,7 +94,7 @@ def key_length(text):
     index_dict = {}
     for chunk in range(2, 31):
         index = 0
-        for element in range(1, chunk + 1):
+        for element in range(0, chunk):
             letter_list = text[element::chunk]
             txt = "".join(map(str, letter_list))
             index += conformity_index(txt)
