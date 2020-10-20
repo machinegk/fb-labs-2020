@@ -10,16 +10,14 @@ stat_file = open(os.path.join(sys.path[0], 'statistics_text.txt'), 'r', encoding
 
 stat_text = re.sub(r'[^А-Яа-я]', '', stat_file.read().lower())
 
-monograms = monogram_counter(stat_text)
-
 
 text = re.sub(r'\W', '', file.read().lower())
 
-print(monograms)
 
-partial_caesar_decryptor(text, monograms, 14)
+reference_dict = entropy_counter(stat_text)
 
 
+print(partial_caesar_decryptor(text, reference_dict, 14))
 
 
 
