@@ -19,6 +19,8 @@ data = key_length(text)  # Get dict with conformity index of each chunk that ill
 print("Conformity of text : " + str(conformity_index(text)))  # Print conformity index of encrypted text
 
 print(str(data))  # Print conformity index of each chunk that illustrates possible key length
+print(
+    "Conformity index of encrypted text: " + str(conformity_index(text)))  # General conformity index of encrypted text
 clrs = ['grey' if (x < max(data.values())) else 'red' for x in data.values()]  # Set colors for bars in chart
 plt.bar(data.keys(), data.values(), color=clrs)  # Create bar chart of conformity index of each chunk
 plt.show()  # Show chart

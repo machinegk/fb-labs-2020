@@ -23,7 +23,8 @@ for i in range(0, len(keys)):
     print(str("\n" + "KEY: " + keys[i] + "\n\n" + encrypted_text + "\n\n" + str(
         keys_conformity) + "\n"))  # Print encryption key, encrypted text and conformity indexes of chunks
     # w_file.write(str("\n\n" + "KEY: " + keys[i] + "\n" + encrypted_text + "\n\n")
-
+    print("Conformity index of encrypted text: " + str(conformity_index(encrypted_text))) # General conformity index
+    # of encrypted text
     clrs = ['grey' if (x < max(keys_conformity.values())) else 'red' for x in
             keys_conformity.values()]  # Set colors for bars in chart
     plt.bar(keys_conformity.keys(), keys_conformity.values(),
