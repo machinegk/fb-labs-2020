@@ -68,10 +68,13 @@ def partial_caesar_decryptor(text, reference_dict, key_len):
         key_stat.append(max(stat, key=stat.get))
 
     indexed_key_stat = list(map(lambda i: indexed_alphabet[i], key_stat))
-    for index in indexed_key_stat:
-        possible_index = (index - 14) % 32
-        possible_key += key_list[val_list.index(possible_index)]
-    return possible_key
+    for shift in reference_dict.keys():
+        possible_key = ''
+        for index in indexed_key_stat:
+            possible_index = (index - indexed_alphabet[shift]) % 32
+            possible_key += key_list[val_list.index(possible_index)]
+        print(wordninja.split(possible_key))
+
 
 
 def conformity_index(text):

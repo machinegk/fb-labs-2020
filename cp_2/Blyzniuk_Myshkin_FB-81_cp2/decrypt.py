@@ -17,7 +17,7 @@ text = re.sub(r'\W', '', file.read().lower())
 reference_dict = entropy_counter(stat_text)
 
 
-print(partial_caesar_decryptor(text, reference_dict, 14))
+partial_caesar_decryptor(text, reference_dict, 14)
 
 
 
