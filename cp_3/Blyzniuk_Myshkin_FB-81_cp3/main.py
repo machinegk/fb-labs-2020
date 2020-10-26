@@ -1,7 +1,7 @@
 from funcs import *
 
-exeptions = ["ъ", "ё"]
-russian_alphabet = russian_alphabet(exeptions)
+exceptions = ["ъ", "ё"]
+russian_alphabet = russian_alphabet(exceptions)
 indexed_russian_alphabet = indexed_alphabet(russian_alphabet)
 
 print(russian_alphabet)

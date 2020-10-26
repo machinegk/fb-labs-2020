@@ -1,5 +1,7 @@
+import math
+import re
 from collections import Counter, OrderedDict
-import math, re
+
 
 def bigram(spaceless_file):
     letter_pairs = re.findall(r'..?', spaceless_file)
@@ -23,11 +25,12 @@ def bigram(spaceless_file):
 
     return frequency_dict
 
+
 def russian_alphabet(exeptions):
     alp = list(map(lambda letter: ord(letter), exeptions))
     alphabet = list(map(lambda letter: chr(letter), [ind for ind in range(1072, 1104) if ind not in alp]))
     return alphabet
 
+
 def indexed_alphabet(alphabet):
     return {key: v for v, key in enumerate(alphabet)}
-
