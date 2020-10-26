@@ -25,3 +25,5 @@ print(bigram_indexer(bigrams, indexed_russian_alphabet))
 
 
 stat_file.close()
+
+find_opposite(5, 7)
