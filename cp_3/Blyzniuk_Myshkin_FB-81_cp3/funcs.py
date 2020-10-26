@@ -33,38 +33,45 @@ def russian_alphabet(exeptions):
 def indexed_alphabet(alphabet):
     return {key: v for v, key in enumerate(alphabet)}
 
-
 def gcd(first_number, second_number):
     coefs = []
-    print("gcd of " + str(first_number) + " and " + str(second_number), end=" is ")
+    #print("gcd of " + str(first_number) + " and " + str(second_number), end=" is ")
     while second_number != 0:
         t = second_number
         if first_number > second_number:
             coefs.append(math.floor(first_number / second_number))
         second_number = first_number % second_number
         first_number = t
-    print(first_number)
+    #print(first_number)
     return first_number, coefs
 
 
 def solve_equation(a, b, mod):
-    d, _ = gcd(a, mod)
-    print(d)
-    if d == 1:
-        print("1 answer")
-    elif d > 1:
-        if (b % d) == 0:
-            print(str(d) + " answers")
-        else:
-            print("0 answers")
+    a = a % mod  # make sure no number in ouw equation
+    b = b % mod  # is not higher then our mod
 
+    divider, _ = gcd(a, mod)
+    answers = []
+    if divider == 1:
+        a_opp = find_opposite(a, mod)
+        print("x = " + str(a_opp) + "*" + str(b) + "mod" + str(mod))
+        x = (a_opp * b) % mod
+        answers.append(x)
+    elif divider > 1:
+        if (b % divider) == 0:
+            a_opp = find_opposite(math.floor(a/divider), math.floor(mod/divider))
+            for answer in range(0, (divider)):
+                #print("x = " + str(a_opp) + "*" + str(b/divider) + " + " + str(answer) + "*" + str(mod/divider) + " " + "mod" + str(mod))
+                x = ((a_opp * math.floor(b/divider)) + (answer * math.floor(mod/divider))) % mod
+                answers.append(x)
+        else:
+            amount_of_answers = 0
+    #print("x = " + str(answers))
+    return answers
 
 def find_opposite(a, mod):
-    if a > mod:
-        a = a % mod
-    print("looking for opposite for " + str(a) + " with mode " + str(mod))
     _, coefs = gcd(a, mod)
-    print("coefs: " + str(coefs))
+    #print("coefs: " + str(coefs))
     x = 1
     y = 0
     t = 0
@@ -75,7 +82,6 @@ def find_opposite(a, mod):
     if x < 0:
         x = x + mod
     print("opposite is: " + str(x))
-
     return x
 
 
@@ -86,5 +92,7 @@ def bigram_indexer(bigrams, indexed_alphabet_dict):
 
 def param_counter(stat_frequency, enc_bigram_frequency):
     for indx in range(5):
-        print(solve_equation(stat_frequency[indx] - stat_frequency[indx + 1],
-                             enc_bigram_frequency[indx] - enc_bigram_frequency[indx + 1], 961))
+        print("vhod: ", end=" ")
+        print(stat_frequency[indx] - stat_frequency[indx + 1], enc_bigram_frequency[indx] - enc_bigram_frequency[indx + 1], 961)
+        print(solve_equation(stat_frequency[indx] - stat_frequency[indx + 1], enc_bigram_frequency[indx] - enc_bigram_frequency[indx + 1], 961))
+
