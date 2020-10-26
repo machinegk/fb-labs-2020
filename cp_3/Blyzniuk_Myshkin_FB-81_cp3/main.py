@@ -8,3 +8,8 @@ print(russian_alphabet)
 print(len(russian_alphabet))
 print(indexed_russian_alphabet)
 print(len(indexed_russian_alphabet))
+
+stat_file = open("statistics_text.txt", 'r', encoding='UTF-8')
+
+stat_text = re.sub(r'\W', '', stat_file.read().lower()).translate(
+    str.maketrans({"ъ": "ь", "ё": "е"}))  # Get clear text from file
