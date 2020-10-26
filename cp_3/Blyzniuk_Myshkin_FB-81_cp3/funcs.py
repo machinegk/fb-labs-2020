@@ -27,3 +27,7 @@ def russian_alphabet(exeptions):
     alp = list(map(lambda letter: ord(letter), exeptions))
     alphabet = list(map(lambda letter: chr(letter), [ind for ind in range(1072, 1104) if ind not in alp]))
     return alphabet
+
+def indexed_alphabet(alphabet):
+    return {key: v for v, key in enumerate(alphabet)}
+
