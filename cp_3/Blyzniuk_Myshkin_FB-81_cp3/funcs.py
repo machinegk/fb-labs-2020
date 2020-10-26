@@ -4,11 +4,11 @@ from collections import Counter, OrderedDict
 
 
 def bigram(spaceless_file):
-    letter_pairs = re.findall(r'..?', spaceless_file)
+    bigrams = re.findall(r'..?', spaceless_file)
 
-    grams = Counter(letter_pairs)  # Count the frequency of each pair of letters in the text
-    grams = OrderedDict(sorted(grams.items(), key=lambda t: t[0]))  # Sorts the dict
-    grams_amount = len(letter_pairs)  # Return amount of pair of the letters
+    grams = Counter(bigrams)  # Count the frequency of each pair of letters in the text
+    grams = OrderedDict(sorted(grams.items(), key=lambda t: t[1], reverse=True))  # Sorts the dict
+    grams_amount = len(bigrams)  # Return amount of pair of the letters
 
     frequency_dict = {}  # Create empty dict for letter frequency
 
@@ -23,7 +23,7 @@ def bigram(spaceless_file):
 
     entropy = entropy / 2
 
-    return frequency_dict
+    return frequency_dict, bigrams
 
 
 def russian_alphabet(exeptions):
@@ -34,3 +34,8 @@ def russian_alphabet(exeptions):
 
 def indexed_alphabet(alphabet):
     return {key: v for v, key in enumerate(alphabet)}
+
+
+def bigram_indexer(bigrams, indexed_alphabet):
+    indexed_bigrams = list(map(lambda bgm: indexed_alphabet[bgm[0]] * 31 + indexed_alphabet[bgm[1]], bigrams))
+    return indexed_bigrams
