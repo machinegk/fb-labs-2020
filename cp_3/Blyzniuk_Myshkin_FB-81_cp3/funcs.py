@@ -41,7 +41,7 @@ def gcd(first_number, second_number):
     while second_number != 0:
         t = second_number
         if first_number > second_number:
-            coefs.append((first_number - (first_number % second_number)) / second_number)
+            coefs.append(math.floor(first_number / second_number))
         second_number = first_number % second_number
         first_number = t
     print(first_number)
@@ -49,7 +49,9 @@ def gcd(first_number, second_number):
 
 
 def solve_equation(a, b, mod):
-    d = gcd(a, mod)
+
+    d, _ = gcd(a, mod)
+    print(d)
     if d == 1:
         print("1 answer")
     elif d > 1:
@@ -58,16 +60,24 @@ def solve_equation(a, b, mod):
         else:
             print("0 answers")
 
-
 def find_opposite(a, mod):
-    f_number, coefs = gcd(a, mod)
-    print(coefs)
+    if a > mod:
+        a = a % mod
+    print("looking for opposite for " + str(a) + " with mode " + str(mod))
+    _, coefs = gcd(a, mod)
+    print("coefs: " + str(coefs))
     x = 1
     y = 0
+    t = 0
     for index in range(0, (len(coefs) - 1)):
-        x = x * -(coefs[index])
-        x = x * -(coefs[index])
-    return 1
+        t = x
+        x = x * -(coefs[index]) + y
+        y = t
+    if x < 0:
+        x = x + mod
+    print("opposite is: " + str(x))
+
+    return x
 
 
 def bigram_indexer(bigrams, indexed_alphabet):
