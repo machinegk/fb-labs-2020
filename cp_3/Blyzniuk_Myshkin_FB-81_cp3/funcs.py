@@ -1,11 +1,5 @@
-def russian_alphabet():
-
-    #alphabet = list(map(lambda letter: chr(letter), range(1072, 1104)))
-    alphabet = list(map(lambda letter: chr(letter), [ind for ind in range(1072, 1104) if ind not in [1073]]))
-    return alphabet
 from collections import Counter, OrderedDict
 import math, re
-
 
 def bigram(spaceless_file):
     letter_pairs = re.findall(r'..?', spaceless_file)
@@ -30,5 +24,6 @@ def bigram(spaceless_file):
     return frequency_dict
 
 def russian_alphabet(exeptions):
-    alphabet = list(map(lambda letter: chr(letter), [ind for ind in range(1072, 1104) if ind not in [ord(exeptions)]]))
+    alp = list(map(lambda letter: ord(letter), exeptions))
+    alphabet = list(map(lambda letter: chr(letter), [ind for ind in range(1072, 1104) if ind not in alp]))
     return alphabet
