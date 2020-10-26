@@ -6,7 +6,6 @@ def bigram(spaceless_file):
     bigrams = re.findall(r'..?', spaceless_file)
 
     grams = Counter(bigrams)  # Count the frequency of each pair of letters in the text
-    grams = OrderedDict(sorted(grams.items(), key=lambda t: t[1], reverse=True))  # Sorts the dict
     grams_amount = len(bigrams)  # Return amount of pair of the letters
 
     frequency_dict = {}  # Create empty dict for letter frequency
@@ -49,7 +48,6 @@ def gcd(first_number, second_number):
 
 
 def solve_equation(a, b, mod):
-
     d, _ = gcd(a, mod)
     print(d)
     if d == 1:
@@ -59,6 +57,7 @@ def solve_equation(a, b, mod):
             print(str(d) + " answers")
         else:
             print("0 answers")
+
 
 def find_opposite(a, mod):
     if a > mod:
@@ -80,6 +79,12 @@ def find_opposite(a, mod):
     return x
 
 
-def bigram_indexer(bigrams, indexed_alphabet):
-    indexed_bigrams = list(map(lambda bgm: indexed_alphabet[bgm[0]] * 31 + indexed_alphabet[bgm[1]], bigrams))
+def bigram_indexer(bigrams, indexed_alphabet_dict):
+    indexed_bigrams = list(map(lambda bgm: indexed_alphabet_dict[bgm[0]] * 31 + indexed_alphabet_dict[bgm[1]], bigrams))
     return indexed_bigrams
+
+
+def param_counter(stat_frequency, enc_bigram_frequency):
+    for indx in range(5):
+        print(solve_equation(stat_frequency[indx] - stat_frequency[indx + 1],
+                             enc_bigram_frequency[indx] - enc_bigram_frequency[indx + 1], 961))

@@ -16,9 +16,22 @@ stat_text = re.sub(r'\W', '', stat_file.read().lower()).translate(
     str.maketrans({"ъ": "ь", "ё": "е"}))  # Get clear text from file
 enc_text = re.sub(r'\W', '', enc_file.read())
 
+
+stat_frequency, frequency_bigrams = bigram(stat_text)
 frequency_dict, bigrams = bigram(enc_text)
+
+stat_frequency = OrderedDict(sorted(stat_frequency.items(), key=lambda t: t[1], reverse=True))
+frequency_dict = OrderedDict(sorted(frequency_dict.items(), key=lambda t: t[1], reverse=True))
+
+frequency_bigrams = sorted(frequency_bigrams, reverse=True)
+bigrams = sorted(bigrams, reverse=True)
+
 print(bigram_indexer(bigrams, indexed_russian_alphabet))
 
+stat_frequency_list = bigram_indexer(bigrams, indexed_russian_alphabet)
+frequency_dict_list = bigram_indexer(bigrams, indexed_russian_alphabet)
+
+param_counter(stat_frequency_list, frequency_dict_list)
 
 
 stat_file.close()
