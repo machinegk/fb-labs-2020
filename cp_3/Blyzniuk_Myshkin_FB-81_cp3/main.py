@@ -1,48 +1,49 @@
 from funcs import *
 
-exceptions = ["ъ", "ё"]
-russian_alphabet = russian_alphabet(exceptions)
-indexed_russian_alphabet = index_alphabet(russian_alphabet)
-
-print(russian_alphabet)
-print(len(russian_alphabet))
-print(indexed_russian_alphabet)
-print(len(indexed_russian_alphabet))
-
-stat_file = open("statistics_text.txt", 'r', encoding='UTF-8')
+print()
+print("SORI ZA \"PIS`MO BABUSHKE\" VMESTO NORMAL`NOGO IMENOVANIA PEREMENNYH (POKA NE PEREIMENOVAL TAK KAK BYLO UDOBNO NICHE NE VYHODILO:D)")
+print("BTW POSMOTRI KLUCH: (27, 211)")
+print("Drugie variki ne proverial( 22:30 ujhe super pohui)")
+print()
 enc_file = open("encrypted.txt", 'r', encoding='UTF-8')
-
-test_file = open("test.txt", 'r', encoding='UTF-8')
-
-
-stat_text = re.sub(r'[^А-Яа-я]', '', stat_file.read().lower()).translate(
-    str.maketrans({"ъ": "ь", "ё": "е"}))  # Get clear text from file
 enc_text = re.sub(r'\W', '', enc_file.read())
-test_text = re.sub(r'\W', '', test_file.read())
+
+exceptions = ["ъ", "ё"]     # exeptions in our alphbet
+most_common_russian_bigrams = ["ст", "но", "ен", "то", "на"]    # bigrams we are looking for in cyphered text by frequency analisis
+impossible_russian_bigrams = ["аь", "оь", "еь", "иь", "уь", "оь", "щй", "щф", "щх", "щц", "щч", "щш", "щщ"]     # bigrams we are not looking for in decrypted text
+russian_alphabet = russian_alphabet(exceptions)     # our russian alphabet with letter exeptions
+indexed_russian_alphabet = index_alphabet(russian_alphabet)     # our russian indexed from 0 to 30 alphabet
+
+amount_of_most_common_russian_bigrams, amount_of_most_common_encrypted_bigrams = len(most_common_russian_bigrams), 5    # accuracy
+
+print("The alphabet we are using contains " + str(len(russian_alphabet)) + " characters:\n" + str(russian_alphabet))
+print("Indexed version:\n" + str(indexed_russian_alphabet) + "\n")
+
+most_common_russian_bigrams = most_common_russian_bigrams[:amount_of_most_common_russian_bigrams]
+most_common_russian_bigrams_values_list, _ = bigram_indexer(most_common_russian_bigrams, indexed_russian_alphabet)
+print(str("Most common russian bigrams: ") + str(most_common_russian_bigrams))
+print("Most common russian bigrams values: " + str(most_common_russian_bigrams_values_list) + "\n")
+
+most_common_encrypted_frequency_dict, encrypted_bigrams = bigram(enc_text)
+most_common_encrypted_frequency_dict = OrderedDict(sorted(most_common_encrypted_frequency_dict.items(), key=lambda t: t[1], reverse=True))
+most_common_encrypted_frequency_list = list(most_common_encrypted_frequency_dict.items())[:amount_of_most_common_encrypted_bigrams]
+
+most_common_encrypted_bigrams_values_list, _ = bigram_indexer(most_common_encrypted_frequency_dict.keys(), indexed_russian_alphabet)
+most_common_encrypted_bigrams_values_list = most_common_encrypted_bigrams_values_list[:amount_of_most_common_encrypted_bigrams]
+print("Most common encpypted bigrams appear rate: " + str(list(x[1] for x in most_common_encrypted_frequency_list)))
+print(str("Most common encrypted bigrams: ") + str(list(x[0] for x in most_common_encrypted_frequency_list)))
+print(str("Most common encrypted bigrams values: ") + str(most_common_encrypted_bigrams_values_list) + "\n")
 
 
-stat_frequency, stat_bigrams = bigram(stat_text)
-frequency_dict, bigrams = bigram(enc_text)
-test_frequency_dict, test_bigrams = bigram(test_text)
+impossible_russian_bigrams_values_list, _ = bigram_indexer(impossible_russian_bigrams, indexed_russian_alphabet)
+print(str("Impossible russian bigrams: ") + str(impossible_russian_bigrams))
+print(str("Impossible russian bigram values: ") + str(impossible_russian_bigrams_values_list) + "\n")
 
-stat_frequency = OrderedDict(sorted(stat_frequency.items(), key=lambda t: t[1], reverse=True))
-frequency_dict = OrderedDict(sorted(frequency_dict.items(), key=lambda t: t[1], reverse=True))
-test_frequency_dict = OrderedDict(sorted(test_frequency_dict.items(), key=lambda t: t[1], reverse=True))
+possible_keys_list = removeDuplicates(param_counter(most_common_russian_bigrams_values_list, most_common_encrypted_bigrams_values_list))
+print("Threre is " + str(len(possible_keys_list)) + " possible keys:\n" + str(possible_keys_list))
 
-stat_frequency_list, _ = bigram_indexer(['ст', "но", "ен", "то", "на", "ов"], indexed_russian_alphabet)
-frequency_dict_list, _ = bigram_indexer(frequency_dict.keys(), indexed_russian_alphabet)
-test_frequency_dict, _ = bigram_indexer(test_frequency_dict.keys(), indexed_russian_alphabet)
+encrypted_bigrams_values_list, _ = bigram_indexer(encrypted_bigrams, indexed_russian_alphabet)
 
-possible_keys_list = param_counter(stat_frequency_list, frequency_dict_list)
-print(possible_keys_list)
+decipher(possible_keys_list, encrypted_bigrams_values_list, indexed_russian_alphabet, impossible_russian_bigrams_values_list)
 
-
-indexed_bigrams, _ = bigram_indexer(bigrams, indexed_russian_alphabet)
-test_indexed_bigrams, _ = bigram_indexer(test_bigrams, indexed_russian_alphabet)
-_, reference_bigrams = bigram_indexer(stat_bigrams, indexed_russian_alphabet)
-
-decipher(possible_keys_list, indexed_bigrams, reference_bigrams)
-# decipher([[[]]], test_indexed_bigrams, reference_bigrams)
-
-stat_file.close()
 enc_file.close()
