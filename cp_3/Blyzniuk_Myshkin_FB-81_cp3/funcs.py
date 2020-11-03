@@ -1,5 +1,6 @@
+import math
+import re
 from collections import Counter, OrderedDict
-import math, re
 
 
 def bigram(spaceless_file):
@@ -30,48 +31,50 @@ def russian_alphabet(exeptions):
     return alphabet
 
 
-def indexed_alphabet(alphabet):
+def index_alphabet(alphabet):
     return {key: v for v, key in enumerate(alphabet)}
+
 
 def gcd(first_number, second_number):
     coefs = []
-    #print("gcd of " + str(first_number) + " and " + str(second_number), end=" is ")
+    # print("gcd of " + str(first_number) + " and " + str(second_number), end=" is ")
     while second_number != 0:
         t = second_number
         if first_number > second_number:
             coefs.append(math.floor(first_number / second_number))
         second_number = first_number % second_number
         first_number = t
-    #print(first_number)
+    # print(first_number)
     return first_number, coefs
 
 
-def solve_equation(a, b, mod):
-    a = a % mod  # make sure no number in ouw equation
-    b = b % mod  # is not higher then our mod
+def find_a_key(X, Y, mod):
+    X = X % mod  # make sure no number in ouw equation
+    Y = Y % mod  # is not higher then our mod
 
-    divider, _ = gcd(a, mod)
+    divider, _ = gcd(X, mod)
     answers = []
     if divider == 1:
-        a_opp = find_opposite(a, mod)
-        print("x = " + str(a_opp) + "*" + str(b) + "mod" + str(mod))
-        x = (a_opp * b) % mod
+        a_opp = find_opposite(X, mod)
+        print("x = " + str(a_opp) + "*" + str(Y) + "mod" + str(mod))
+        x = (a_opp * Y) % mod
         answers.append(x)
     elif divider > 1:
-        if (b % divider) == 0:
-            a_opp = find_opposite(math.floor(a/divider), math.floor(mod/divider))
+        if (Y % divider) == 0:
+            a_opp = find_opposite(math.floor(X / divider), math.floor(mod / divider))
             for answer in range(0, (divider)):
-                #print("x = " + str(a_opp) + "*" + str(b/divider) + " + " + str(answer) + "*" + str(mod/divider) + " " + "mod" + str(mod))
-                x = ((a_opp * math.floor(b/divider)) + (answer * math.floor(mod/divider))) % mod
+                # print("x = " + str(a_opp) + "*" + str(b/divider) + " + " + str(answer) + "*" + str(mod/divider) + " " + "mod" + str(mod))
+                x = ((a_opp * math.floor(Y / divider)) + (answer * math.floor(mod / divider))) % mod
                 answers.append(x)
         else:
             amount_of_answers = 0
-    #print("x = " + str(answers))
+    # print("x = " + str(answers))
     return answers
+
 
 def find_opposite(a, mod):
     _, coefs = gcd(a, mod)
-    #print("coefs: " + str(coefs))
+    # print("coefs: " + str(coefs))
     x = 1
     y = 0
     t = 0
@@ -87,12 +90,37 @@ def find_opposite(a, mod):
 
 def bigram_indexer(bigrams, indexed_alphabet_dict):
     indexed_bigrams = list(map(lambda bgm: indexed_alphabet_dict[bgm[0]] * 31 + indexed_alphabet_dict[bgm[1]], bigrams))
-    return indexed_bigrams
+    reference_bigrams = dict(zip(indexed_bigrams, bigrams))
+    return indexed_bigrams, reference_bigrams
+
+
 
 
 def param_counter(stat_frequency, enc_bigram_frequency):
-    for indx in range(5):
-        print("vhod: ", end=" ")
-        print(stat_frequency[indx] - stat_frequency[indx + 1], enc_bigram_frequency[indx] - enc_bigram_frequency[indx + 1], 961)
-        print(solve_equation(stat_frequency[indx] - stat_frequency[indx + 1], enc_bigram_frequency[indx] - enc_bigram_frequency[indx + 1], 961))
+    possible_keys_list = []
+    for index in range(5):
+        sublist = []
+        a_arr = find_a_key(stat_frequency[index] - stat_frequency[index + 1],
+                           enc_bigram_frequency[0] - enc_bigram_frequency[1],
+                           961)
+        for a in a_arr:
+            b = (enc_bigram_frequency[index] - a * stat_frequency[index]) % 961
+            sublist.append([a, b])
+        possible_keys_list.append(sublist)
+    return possible_keys_list
 
+
+def decipher(keys_list, indexed_bigrams, reference_bigrams):
+    for lst in keys_list:
+        for sublist in lst:
+            a = sublist[0]
+            b = sublist[1]
+            a_opposite = find_opposite(a, 961)
+            text = ''
+            for bigram in indexed_bigrams:
+                X = a_opposite*(bigram - b) % 961
+                try:
+                    text += reference_bigrams[X]
+                except Exception as e:
+                    text += '__'
+            print(text)
