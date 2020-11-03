@@ -29,7 +29,7 @@ stat_frequency = OrderedDict(sorted(stat_frequency.items(), key=lambda t: t[1], 
 frequency_dict = OrderedDict(sorted(frequency_dict.items(), key=lambda t: t[1], reverse=True))
 test_frequency_dict = OrderedDict(sorted(test_frequency_dict.items(), key=lambda t: t[1], reverse=True))
 
-stat_frequency_list, _ = bigram_indexer(['ст', "но", "ен", "то", "на", "ов"], indexed_russian_alphabet)
+stat_frequency_list, _ = bigram_indexer(stat_frequency.keys(), indexed_russian_alphabet)
 frequency_dict_list, _ = bigram_indexer(frequency_dict.keys(), indexed_russian_alphabet)
 test_frequency_dict, _ = bigram_indexer(test_frequency_dict.keys(), indexed_russian_alphabet)
 
