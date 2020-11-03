@@ -51,29 +51,12 @@ def find_a_key(X, Y, mod):
             res.append(solution)
         return res
 
-def find_opposite(a, in_mod):
-    q_arr = []
-    mod = in_mod
-    remnant = mod - (a * (mod // a))
-
-    if mod // a != mod:
-        q_arr.append(mod // a)
-        a, mod = remnant, a
-        while remnant != 1:
-            remnant = mod - (a * (mod // a))
-            q_arr.append(mod // a)
-            a, mod = remnant, a
-        q_arr = list(map(lambda x: x * -1, q_arr))
-    else:
-        q_arr.append(1)
-    p0 = 0
-    p1 = 1
-    res = 0
-    for q in q_arr:
-        res = (p1 * q) + p0
-        p0 = p1
-        p1 = res
-    return res % in_mod
+def find_opposite(a, m):
+    a = a % m;
+    for x in range(1, m):
+        if ((a * x) % m == 1):
+            return x
+    return 1
 
 
 def bigram_indexer(bigrams, indexed_alphabet_dict):
