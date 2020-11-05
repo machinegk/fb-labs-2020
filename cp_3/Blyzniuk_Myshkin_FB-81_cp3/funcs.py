@@ -111,7 +111,6 @@ def param_counter(stat_frequency, enc_bigram_frequency):
                 for enc_frequency_index2 in range(0, len(enc_bigram_frequency)):
                     if enc_frequency_index2 == enc_frequency_index1:
                         continue
-                    # print("\n")
                     # print(str(enc_bigram_frequency[enc_frequency_index1]) + " = a * " + str(stat_frequency[stat_frequency_index1]) + " + b")
                     # print(str(enc_bigram_frequency[enc_frequency_index2]) + " = a * " + str(stat_frequency[stat_frequency_index2]) + " + b")
                     # print(str(enc_bigram_frequency[enc_frequency_index1]) + " - " + str(enc_bigram_frequency[enc_frequency_index2]) + " = (" + str(stat_frequency[stat_frequency_index1]) + " - " + str(stat_frequency[stat_frequency_index2]) + ") * a")
