@@ -1,10 +1,5 @@
 from funcs import *
 
-print()
-print("SORI ZA \"PIS`MO BABUSHKE\" VMESTO NORMAL`NOGO IMENOVANIA PEREMENNYH (POKA NE PEREIMENOVAL TAK KAK BYLO UDOBNO NICHE NE VYHODILO:D)")
-print("BTW POSMOTRI KLUCH: (27, 211)")
-print("Drugie variki ne proverial( 22:30 ujhe super pohui)")
-print()
 enc_file = open("encrypted.txt", 'r', encoding='UTF-8')
 enc_text = re.sub(r'\W', '', enc_file.read())
 
@@ -16,7 +11,7 @@ indexed_russian_alphabet = index_alphabet(russian_alphabet)     # our russian in
 
 amount_of_most_common_russian_bigrams, amount_of_most_common_encrypted_bigrams = len(most_common_russian_bigrams), 5    # accuracy
 
-print("The alphabet we are using contains " + str(len(russian_alphabet)) + " characters:\n" + str(russian_alphabet))
+print("\n" + "The alphabet we are using contains " + str(len(russian_alphabet)) + " characters:\n" + str(russian_alphabet))
 print("Indexed version:\n" + str(indexed_russian_alphabet) + "\n")
 
 most_common_russian_bigrams = most_common_russian_bigrams[:amount_of_most_common_russian_bigrams]
