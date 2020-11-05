@@ -9,7 +9,7 @@ impossible_russian_bigrams = ["аь", "оь", "еь", "иь", "уь", "оь", "�
 russian_alphabet = russian_alphabet(exceptions)     # our russian alphabet with letter exeptions
 indexed_russian_alphabet = index_alphabet(russian_alphabet)     # our russian indexed from 0 to 30 alphabet
 
-amount_of_most_common_russian_bigrams, amount_of_most_common_encrypted_bigrams = len(most_common_russian_bigrams), 5    # accuracy
+amount_of_most_common_russian_bigrams, amount_of_most_common_encrypted_bigrams = 5, 2    # accuracy
 
 print("\n" + "The alphabet we are using contains " + str(len(russian_alphabet)) + " characters:\n" + str(russian_alphabet))
 print("Indexed version:\n" + str(indexed_russian_alphabet) + "\n")
