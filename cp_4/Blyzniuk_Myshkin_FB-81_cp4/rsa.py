@@ -1,5 +1,11 @@
-def GenerateKeyPair():
+from funcs import *
+
+def GenerateKeyPair(key_length):
+    p = random_prime(key_length)
+    q = random_prime(key_length)
+    print("here " + str(p) + " " + str(q))
     pass
+
 
 
 def Encrypt():
