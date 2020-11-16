@@ -1,4 +1,3 @@
-import math
 import random
 
 
@@ -31,36 +30,67 @@ def find_opposite(a, mod):
     return x
 
 
-def func_groma(a, power, mod):
-    result = 1
-    for i in range(0, power):
-        result = result * a % mod
-    return result
+def has_common_divider(a, b):
+    if gcd(a, b)[0] > 1:
+        return True
+    else:
+        return False
+
+
+def left_to_right_power(a, power, mod): # https://ru.wikipedia.org/wiki/%D0%90%D0%BB%D0%B3%D0%BE%D1%80%D0%B8%D1%82%D0%BC%D1%8B_%D0%B1%D1%8B%D1%81%D1%82%D1%80%D0%BE%D0%B3%D0%BE_%D0%B2%D0%BE%D0%B7%D0%B2%D0%B5%D0%B4%D0%B5%D0%BD%D0%B8%D1%8F_%D0%B2_%D1%81%D1%82%D0%B5%D0%BF%D0%B5%D0%BD%D1%8C#%D0%9F%D1%80%D0%B8%D0%BC%D0%B5%D1%80%D1%8B_%D1%80%D0%B5%D1%88%D0%B5%D0%BD%D0%B8%D1%8F_%D0%B7%D0%B0%D0%B4%D0%B0%D1%87
+    bin_pow = bin(power)[2:]  # removing "0b" and than reversing string
+    y = 1
+    for i in range(len(bin_pow)):
+        if i == len(bin_pow)-1:
+            y = y * (a ** int(bin_pow[i]))
+        else:
+            y = (y * (a ** int(bin_pow[i]))) ** 2
+        y = y % mod
+    return y
 
 
 def random_number(lower_bound, upper_bound):
     return random.randint(lower_bound, upper_bound)
 
 
+def key_hex(key):
+    res = []
+    for i in range(len(key)):
+        res.append(hex(key[i]))
+    return res
+
+
+def site_hex(m):
+    return hex(m)[0] + hex(m)[2:]
+
+
+def site_key_hex(key):
+    res = []
+    for i in range(len(key)):
+        res.append(site_hex(key[i]))
+    return res
+
+
 def random_prime(key_length):
-    print("Key length is " + str(key_length))
     lower_bound = 2 ** key_length - 1
     upper_bound = 2 ** (key_length + 1) - 1
-    print("Looking for random number in range " + str(lower_bound), str(upper_bound))
+    # print("Looking for random number in range " + str(lower_bound), str(upper_bound))
     while True:
-        print("k", end="")
         rand_number = random_number(lower_bound, upper_bound)
         if rand_number % 2 == 0:
             rand_number += 1
+
         if miller_rabin_test(rand_number):
-            print("We found a prime number: " + str(rand_number))
+            # print("We found a prime number: " + str(rand_number))
             break
-    print("end of the func")
+        else:
+            # print("Rabin says " + str(rand_number) + " is not prime number")
+            pass
     return rand_number
 
 
 def miller_rabin_test(number):
-    print("Miller rabin test of number " + str(number))
+    # print("Miller rabin test of number " + str(number))
     k = 100
     s = 0
     d = number - 1
@@ -78,7 +108,7 @@ def miller_rabin_test(number):
             return False
         else:
             # number can be prime or not
-            x =  func_groma(x, d, number) # (x ** d) % number
+            x = left_to_right_power(x, d, number)  # (x ** d) % number
             if abs(x) == 1:
                 # sil`no psevdoprostoe za osnovaniem x
                 continue
