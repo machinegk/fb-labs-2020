@@ -4,27 +4,29 @@ def generate_key_pair(key_length):
     # print("Key length is " + str(key_length))
     p = random_prime(key_length)
     q = random_prime(key_length)
-    # print("\n owr p = " + str(p) + "\nand q = " + str(q))
-    if p == q:
+    while p == q:
         q = random_prime(key_length)
+    # print("\nowr p = " + str(p) + "\nand q = " + str(q))
     n = q * p
     # fi(prime) = (prime - 1)
     fi_n = (q - 1) * (p - 1)
-    e = fi_n
+    e = random_number(2, (fi_n - 1))
+
     while has_common_divider(e, fi_n):
         e = random_number(2, (fi_n - 1))
+
     d = find_opposite(e, fi_n)
-    public_key = (n, e)
-    private_key = (d, p, q)
-    return (public_key, private_key)
+    public_key = [e, n]
+    private_key = [d, p, q]
+    return [public_key, private_key]
 
 
 def encrypt(message, public_key):
-    return left_to_right_power(message, public_key[1], public_key[0])
+    return left_to_right_power(message, public_key[0], public_key[1])
 
 
-def decrypt():
-    pass
+def decrypt(enc_message, d, n):
+    return left_to_right_power(enc_message, d, n)
 
 
 def sign():
@@ -35,7 +37,7 @@ def verify():
     pass
 
 
-def sendKey():
+def send_key():
     pass
 
 

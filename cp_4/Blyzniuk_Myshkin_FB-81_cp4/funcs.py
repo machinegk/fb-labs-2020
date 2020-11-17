@@ -90,35 +90,42 @@ def random_prime(key_length):
 
 
 def miller_rabin_test(number):
-    # print("Miller rabin test of number " + str(number))
     k = 100
-    s = 0
     d = number - 1
+    s = 0
     # number-1 = d * 2^(s) -> d = (number-1) / 2^(s)
     # s - количество двоек в разложении (number - 1)
     while d % 2 == 0:
         s += 1
         d = d // 2  # d = (d - (d % 2)) /2
 
-    for _ in range(0, k):
+    for _ in range(k):
         # take random x in range 1 < x < number OR 2 <= x <= (number-1)
         x = random_number(2, number - 1)
         if gcd(x, number)[0] > 1:
             # number is not prime
             return False
+        x = left_to_right_power(x, d, number)
+        if x == 1 or x == number - 1:
+            # sil`no psevdoprostoe za osnovaniem x
+            continue
         else:
             # number can be prime or not
-            x = left_to_right_power(x, d, number)  # (x ** d) % number
-            if abs(x) == 1:
-                # sil`no psevdoprostoe za osnovaniem x
-                continue
-            for si in range(1, s-1):
+            pseudo_prime = False
+
+            for si in range(1, s):
                 # x_r = x^(d * 2^(si)) -> x^(d) * x^(2^si)
-                x_r = (x ** (2 ** si) * x) % number
-                if x_r == -1:
-                    break
+                x_r = x * left_to_right_power(x, 2 ** si, number)
+
+                if x_r == number - 1:
+                    # sil`no psevdoprostoe za osnovaniem x
+                    pseudo_prime = True
                 elif x_r == 1:
+                    # ne sil`no psevdoprostoe za osnovaniem x
                     return False
-                else:
-                    continue
+
+            if not pseudo_prime:
+                # number is composite number (number = p * q)
+                return False
+
     return True
