@@ -29,12 +29,14 @@ def decrypt(enc_message, d, n):
     return left_to_right_power(enc_message, d, n)
 
 
-def sign():
-    pass
+def sign(original_message, d, n):
+    signature = left_to_right_power(original_message, d, n)
+    return [original_message, signature]
 
 
-def verify():
-    pass
+def verify(message, signature, public_key):
+    success = (message == left_to_right_power(signature, public_key[0], public_key[1]))
+    return success
 
 
 def send_key():
