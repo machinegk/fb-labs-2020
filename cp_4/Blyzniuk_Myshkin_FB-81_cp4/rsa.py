@@ -1,5 +1,6 @@
 from funcs import *
 
+
 def generate_key_pair(key_length):
     # print("Key length is " + str(key_length))
     p = random_prime(key_length)
@@ -17,7 +18,7 @@ def generate_key_pair(key_length):
 
     d = find_opposite(e, fi_n)
     public_key = [e, n]
-    private_key = [d, p, q]
+    private_key = [d, n]  # [d, p, q]
     return [public_key, private_key]
 
 
@@ -25,12 +26,12 @@ def encrypt(message, public_key):
     return left_to_right_power(message, public_key[0], public_key[1])
 
 
-def decrypt(enc_message, d, n):
-    return left_to_right_power(enc_message, d, n)
+def decrypt(enc_message, private_key):
+    return left_to_right_power(enc_message, private_key[0], private_key[1])
 
 
-def sign(original_message, d, n):
-    signature = left_to_right_power(original_message, d, n)
+def sign(original_message, private_key):
+    signature = left_to_right_power(original_message, private_key[0], private_key[1])
     return [original_message, signature]
 
 
