@@ -40,9 +40,17 @@ def verify(message, signature, public_key):
     return success
 
 
-def send_key():
-    pass
+def send_key(a_message, a_private, b_public):
+    s = sign(a_message, a_private)
+    print(f"User A put \n\tk: {s[0]}\n\ts: {s[1]}\n")
+    k1 = left_to_right_power(s[0], b_public[0], b_public[1])
+    s1 = left_to_right_power(s[1], b_public[0], b_public[1])
+    return (k1, s1)
 
 
-def receive_key():
-    pass
+def receive_key(povidomlennia, public_key_a, public_key_b, private_key_b):
+    k1, s1 = povidomlennia
+    k = left_to_right_power(k1, private_key_b[0], public_key_b[1])
+    s = left_to_right_power(s1, private_key_b[0], public_key_b[1])
+    print(f"User B finds \n\tk: {k}\n\ts: {s}\n")
+    return k == left_to_right_power(s, public_key_a[0], public_key_a[1])

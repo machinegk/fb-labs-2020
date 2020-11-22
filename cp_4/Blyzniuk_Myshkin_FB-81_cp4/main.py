@@ -44,3 +44,13 @@ key_length = 20
 
 public_key_a, private_key_a = generate_key_pair(key_length)
 public_key_b, private_key_b = generate_key_pair(key_length+1)
+
+a_message = random_number(0, 2 ** key_length)
+
+# k1, s1
+povidomlennia = send_key(a_message, private_key_a, public_key_b)
+print(f"User A forms \n\tk1: {povidomlennia[0]}\n\ts1: {povidomlennia[1]}\n")
+
+
+valid_auth = receive_key(povidomlennia, public_key_a, public_key_b, private_key_b)
+print(f"User B check if A signature is valid - {valid_auth}")
