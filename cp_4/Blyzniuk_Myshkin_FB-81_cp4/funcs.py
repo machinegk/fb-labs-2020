@@ -77,8 +77,12 @@ def random_prime(key_length):
     # print("Looking for random number in range " + str(lower_bound), str(upper_bound))
     rand_number = random_number(lower_bound, upper_bound)
     while True:
+        if rand_number >= (upper_bound-2):
+            rand_number = random_number(lower_bound, upper_bound)
+
         if rand_number % 2 == 0:
             rand_number += 1
+
         if miller_rabin_test(rand_number):
             # print("We found a prime number: " + str(rand_number))
             break
