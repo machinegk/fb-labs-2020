@@ -72,20 +72,20 @@ def site_key_hex(key):
 
 
 def random_prime(key_length):
-    lower_bound = 2 ** key_length - 1
+    lower_bound = 2 ** key_length
     upper_bound = 2 ** (key_length + 1) - 1
     # print("Looking for random number in range " + str(lower_bound), str(upper_bound))
+    rand_number = random_number(lower_bound, upper_bound)
     while True:
-        rand_number = random_number(lower_bound, upper_bound)
         if rand_number % 2 == 0:
             rand_number += 1
-
         if miller_rabin_test(rand_number):
             # print("We found a prime number: " + str(rand_number))
             break
         else:
             # print("Rabin says " + str(rand_number) + " is not prime number")
-            pass
+            # so add 2
+            rand_number += 2
     return rand_number
 
 
@@ -106,7 +106,7 @@ def miller_rabin_test(number):
             # number is not prime
             return False
         x = left_to_right_power(x, d, number)
-        if x == 1 or x == number - 1:
+        if x == 1 or x == (number - 1):  # x == -1
             # sil`no psevdoprostoe za osnovaniem x
             continue
         else:
@@ -117,7 +117,7 @@ def miller_rabin_test(number):
                 # x_r = x^(d * 2^(si)) -> x^(d) * x^(2^si)
                 x_r = x * left_to_right_power(x, 2 ** si, number)
 
-                if x_r == number - 1:
+                if x_r == number - 1:  # x == -1
                     # sil`no psevdoprostoe za osnovaniem x
                     pseudo_prime = True
                 elif x_r == 1:

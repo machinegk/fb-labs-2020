@@ -24,7 +24,7 @@ decrypted_message = decrypt(encrypted_message, private_key)
 print("Decrypted message: " + str(decrypted_message) + "\n\thex: " + str(hex(decrypted_message)) + "\n\tsite-hex: " + str(site_hex(decrypted_message)))
 
 
-message, signature = sign(message, private_key)
+signature = sign(message, private_key)
 
 print()
 print("Message signature: " + str(signature) + "\n\thex: " + str(hex(signature)) + "\n\tsite-hex: " + str(site_hex(signature)))
@@ -40,7 +40,7 @@ print("----------")
 print()
 
 
-key_length = 250
+key_length = 256
 
 public_key_a, private_key_a = generate_key_pair(key_length)
 public_key_b, private_key_b = generate_key_pair(key_length+1)
@@ -62,7 +62,7 @@ print()
 a_message = random_number(0, 2 ** (key_length-1))
 
 povidomlennia = send_key(a_message, private_key_a, public_key_b)
-valid_auth = receive_key(povidomlennia, public_key_a, public_key_b, private_key_b)
+valid_auth = receive_key(povidomlennia, public_key_a, private_key_b)
 print(f"User B check if A signature is valid - {valid_auth}\n")
 
 str_request = f"http://asymcryptwebservice.appspot.com/rsa/serverKey?keySize=512"

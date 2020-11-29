@@ -16,7 +16,9 @@ def generate_key_pair(key_length):
     e = random_number(2, (fi_n - 1))
 
     while has_common_divider(e, fi_n):
-        e = random_number(2, (fi_n - 1))
+        e += 1
+        if (e + 1) == fi_n:
+            e = random_number(2, (fi_n - 1))
 
     d = find_opposite(e, fi_n)
     public_key = [e, n]
@@ -33,25 +35,27 @@ def decrypt(enc_message, private_key):
 
 
 def sign(original_message, private_key):
-    signature = left_to_right_power(original_message, private_key[0], private_key[1])
-    return [original_message, signature]
+    signature = encrypt(original_message, private_key)
+    return signature
 
 
 def verify(message, signature, public_key):
-    success = (message == left_to_right_power(signature, public_key[0], public_key[1]))
+    success = (message == decrypt(signature, public_key))
     return success
 
 
 def send_key(k, a_private, b_public):
-    k1 = encrypt(k, b_public)
-    _, s = sign(k, a_private)
-    _, s1 = sign(s, b_public)
-    return (k1,s1)
+    k1 = encrypt(k, b_public)  # B private (d) B private(public) (n)
+    s = sign(k, a_private)  # A private (d) A private(public) (n)
+    s1 = encrypt(s, b_public)   # B public (e) B public (n)
+    print(f"User A puts \n\tk: {k}\n\ts: {s}\n")
+    print(f"User A puts \n\tk1: {k1}\n\ts1: {s1}\n")
+    return k1, s1
 
 
-def receive_key(povidomlennia, public_key_a, public_key_b, private_key_b):
-    k1, s1 = povidomlennia
-    k = decrypt(k1, (private_key_b[0], public_key_b[1]))
-    _, s = sign(s1, (private_key_b[0], public_key_b[1]))
+def receive_key(po, public_key_a, private_key_b):
+    k1, s1 = po
+    k = decrypt(k1, private_key_b)  # B private (d) B public (n)
+    s = decrypt(s1, private_key_b)  # B private (d) B public (n)
     print(f"User B finds \n\tk: {k}\n\ts: {s}\n")
-    return k == decrypt(s, (public_key_a[0], public_key_a[1]))
+    return verify(k, s, public_key_a)  # A public
